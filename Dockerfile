@@ -14,11 +14,15 @@ RUN pip install -U pytorch-lightning \
     jupyter-contrib-nbextensions==0.5.1 \
     && jupyter contrib nbextension install --user
 
+# install project dependencies
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
+
 # copy executables to path
 COPY . ./
 RUN chmod u+x  scripts/* \
     && mv scripts/* /usr/local/bin/ \
-    && rmdir scripts
+    && rm -rf scripts
 
 # launch jupyter by default
 CMD ["/bin/bash", "launch-notebook"]
